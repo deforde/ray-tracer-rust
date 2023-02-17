@@ -1,6 +1,8 @@
 use std::fs::File;
 use std::io::prelude::*;
 
+mod vec;
+
 fn main() -> std::io::Result<()> {
     let image_width = 256;
     let image_height = 256;
