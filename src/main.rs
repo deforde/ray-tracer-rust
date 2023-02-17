@@ -11,7 +11,31 @@ use vec::vec::Colour;
 use vec::vec::Point;
 use vec::vec::Vec;
 
+fn hit_sphere(centre: &Point, radius: f32, r: &Ray) -> bool {
+    let oc = r.orig.sub(&[*centre]);
+    let a = r.dir.dot(&r.dir);
+    let b = 2.0 * oc.dot(&r.dir);
+    let c = oc.dot(&oc) - radius * radius;
+    let discriminant = b * b - 4.0 * a * c;
+    discriminant > 0.0
+}
+
 fn ray_colour(r: &Ray) -> Colour {
+    if hit_sphere(
+        &Point {
+            x: 0.0,
+            y: 0.0,
+            z: -1.0,
+        },
+        0.5,
+        r,
+    ) {
+        return Colour {
+            x: 1.0,
+            y: 0.0,
+            z: 0.0,
+        };
+    }
     let unit = r.dir.unit();
     let t = 0.5 * (unit.y + 1.0);
     Colour {
