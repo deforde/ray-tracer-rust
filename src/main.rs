@@ -3,11 +3,13 @@ use std::io::prelude::*;
 
 mod util;
 mod vec;
+mod ray;
 
-use vec::vec::Vec;
-use vec::vec::Point;
-use vec::vec::Colour;
+use ray::ray::Ray;
 use util::util::write_colour;
+use vec::vec::Colour;
+use vec::vec::Point;
+use vec::vec::Vec;
 
 fn main() -> std::io::Result<()> {
     let image_width = 256;
