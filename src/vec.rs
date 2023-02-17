@@ -1,4 +1,4 @@
-mod vec {
+pub mod vec {
     #[derive(Debug, Copy, Clone, PartialEq)]
     pub struct Vec {
         pub x: f32,
