@@ -114,58 +114,82 @@ mod tests {
         };
 
         let mut t = v.add(&[u, r]);
-        assert_eq!(t, vec::Vec {
-            x: 12.0,
-            y: 15.0,
-            z: 18.0,
-        });
+        assert_eq!(
+            t,
+            vec::Vec {
+                x: 12.0,
+                y: 15.0,
+                z: 18.0,
+            }
+        );
 
         t = v.sub(&[u, r]);
-        assert_eq!(t, vec::Vec {
-            x: -10.0,
-            y: -11.0,
-            z: -12.0,
-        });
+        assert_eq!(
+            t,
+            vec::Vec {
+                x: -10.0,
+                y: -11.0,
+                z: -12.0,
+            }
+        );
 
         t = v.mul(&[u, r]);
-        assert_eq!(t, vec::Vec {
-            x: 28.0,
-            y: 80.0,
-            z: 162.0,
-        });
+        assert_eq!(
+            t,
+            vec::Vec {
+                x: 28.0,
+                y: 80.0,
+                z: 162.0,
+            }
+        );
 
         t = v.div(&[u, r]);
-        assert_eq!(t, vec::Vec {
-            x: 0.035714286,
-            y: 0.05,
-            z: 0.055555556,
-        });
+        assert_eq!(
+            t,
+            vec::Vec {
+                x: 0.035714286,
+                y: 0.05,
+                z: 0.055555556,
+            }
+        );
 
         assert_eq!(v.len_sqrd(), 14.0);
         assert_eq!(v.len(), 3.741657387);
 
-        assert_eq!(v.mulf(2.0), vec::Vec {
-            x: 2.0,
-            y: 4.0,
-            z: 6.0,
-        });
+        assert_eq!(
+            v.mulf(2.0),
+            vec::Vec {
+                x: 2.0,
+                y: 4.0,
+                z: 6.0,
+            }
+        );
 
-        assert_eq!(v.divf(2.0), vec::Vec {
-            x: 0.5,
-            y: 1.0,
-            z: 1.5,
-        });
+        assert_eq!(
+            v.divf(2.0),
+            vec::Vec {
+                x: 0.5,
+                y: 1.0,
+                z: 1.5,
+            }
+        );
 
         assert_eq!(v.dot(&u), 32.0);
-        assert_eq!(v.unit(), vec::Vec {
-            x: 0.26726124,
-            y: 0.5345225,
-            z: 0.8017837,
-        });
-        assert_eq!(v.cross(&u), vec::Vec {
-            x: -3.0,
-            y: 6.0,
-            z: -3.0,
-        });
+        assert_eq!(
+            v.unit(),
+            vec::Vec {
+                x: 0.26726124,
+                y: 0.5345225,
+                z: 0.8017837,
+            }
+        );
+        assert_eq!(
+            v.cross(&u),
+            vec::Vec {
+                x: -3.0,
+                y: 6.0,
+                z: -3.0,
+            }
+        );
     }
 }

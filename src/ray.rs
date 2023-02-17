@@ -15,8 +15,8 @@ pub mod ray {
 
 #[cfg(test)]
 mod tests {
-    use crate::vec;
     use super::*;
+    use crate::vec;
     #[test]
     fn ray_at() {
         let r = ray::Ray {
@@ -31,10 +31,13 @@ mod tests {
                 z: 6.0,
             },
         };
-        assert_eq!(r.at(2.0), vec::vec::Vec {
-            x: 9.0,
-            y: 12.0,
-            z: 15.0,
-        });
+        assert_eq!(
+            r.at(2.0),
+            vec::vec::Vec {
+                x: 9.0,
+                y: 12.0,
+                z: 15.0,
+            }
+        );
     }
 }
