@@ -9,39 +9,28 @@ pub mod camera {
         pub vert: vec::vec::Vec,
     }
 
-    pub fn init() -> Camera {
-        let ar = 16.0 / 9.0;
-        let vh = 2.0;
+    pub fn init(
+        lf: &vec::vec::Point,
+        la: &vec::vec::Point,
+        vup: &vec::vec::Vec,
+        vfov: f32,
+        ar: f32,
+    ) -> Camera {
+        let theta = std::f32::consts::PI * vfov / 180.0;
+        let h = (theta / 2.0).tan();
+        let vh = 2.0 * h;
         let vw = ar * vh;
-        let fl = 1.0;
 
-        let orig = vec::vec::Point {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        };
-        let hori = vec::vec::Point {
-            x: vw,
-            y: 0.0,
-            z: 0.0,
-        };
-        let vert = vec::vec::Point {
-            x: 0.0,
-            y: vh,
-            z: 0.0,
-        };
-        let llc = orig.sub(&[
-            hori.divf(2.0),
-            vert.divf(2.0),
-            vec::vec::Vec {
-                x: 0.0,
-                y: 0.0,
-                z: fl,
-            },
-        ]);
+        let w = lf.sub(&[*la]).unit();
+        let u = vup.cross(&w).unit();
+        let v = w.cross(&u);
+
+        let hori = u.mulf(vw);
+        let vert = v.mulf(vh);
+        let llc = lf.sub(&[hori.divf(2.0), vert.divf(2.0), w]);
 
         Camera {
-            orig,
+            orig: *lf,
             llc,
             hori,
             vert,

@@ -179,7 +179,7 @@ fn main() -> std::io::Result<()> {
             y: 0.0,
             z: -1.0,
         },
-        r: -0.4,
+        r: -0.45,
         mat: mat_left,
     }));
     world.objects.push(Hittables::Sphere(Sphere {
@@ -192,7 +192,25 @@ fn main() -> std::io::Result<()> {
         mat: mat_right,
     }));
 
-    let cam = camera::camera::init();
+    let cam = camera::camera::init(
+        &Point {
+            x: -2.0,
+            y: 2.0,
+            z: 1.0,
+        },
+        &Point {
+            x: 0.0,
+            y: 0.0,
+            z: -1.0,
+        },
+        &Vec {
+            x: 0.0,
+            y: 1.0,
+            z: 0.0,
+        },
+        90.0,
+        aspect_ratio,
+    );
 
     let mut f = File::create("img.ppm")?;
     f.write_all(format!("P3\n{image_width} {image_height}\n255\n").as_bytes())?;
