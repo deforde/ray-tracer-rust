@@ -19,6 +19,7 @@ use hittable::hittable::Hittables;
 use lambertian::lambertian::Lambertian;
 use material::material::Material;
 use material::material::Materials;
+use metal::metal::Metal;
 use ray::ray::Ray;
 use sphere::sphere::Sphere;
 use util::util::rand_f32;
@@ -130,14 +131,14 @@ fn main() -> std::io::Result<()> {
             z: 0.3,
         },
     });
-    let mat_left = Materials::Lambertian(Lambertian {
+    let mat_left = Materials::Metal(Metal {
         albedo: Colour {
             x: 0.8,
             y: 0.8,
             z: 0.8,
         },
     });
-    let mat_right = Materials::Lambertian(Lambertian {
+    let mat_right = Materials::Metal(Metal {
         albedo: Colour {
             x: 0.8,
             y: 0.6,
