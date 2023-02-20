@@ -121,6 +121,15 @@ pub mod vec {
     pub fn rand_unit() -> Vec {
         rand_unit_sphere().unit()
     }
+
+    pub fn rand_hemisphere(n: &Vec) -> Vec {
+        let v = rand_unit_sphere();
+        if v.dot(n) > 0.0 {
+            v
+        } else {
+            v.mulf(-1.0)
+        }
+    }
 }
 
 #[cfg(test)]
