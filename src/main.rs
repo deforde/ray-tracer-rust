@@ -16,7 +16,7 @@ use ray::ray::Ray;
 use sphere::sphere::Sphere;
 use util::util::rand_f32;
 use util::util::write_colour;
-use vec::vec::rand_unit_sphere;
+use vec::vec::rand_unit;
 use vec::vec::Colour;
 use vec::vec::Point;
 use vec::vec::Vec;
@@ -58,7 +58,7 @@ fn ray_colour(r: &Ray, world: &HittableList, depth: i32) -> Colour {
     };
 
     if world.hit(r, 0.001, std::f32::MAX, &mut rec) {
-        let target = rec.p.add(&[rec.n, rand_unit_sphere()]);
+        let target = rec.p.add(&[rec.n, rand_unit()]);
         return ray_colour(
             &Ray {
                 orig: rec.p,

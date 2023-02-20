@@ -117,6 +117,10 @@ pub mod vec {
             }
         }
     }
+
+    pub fn rand_unit() -> Vec {
+        rand_unit_sphere().unit()
+    }
 }
 
 #[cfg(test)]
