@@ -3,6 +3,9 @@ use std::io::prelude::*;
 
 mod camera;
 mod hittable;
+mod lambertian;
+mod material;
+mod metal;
 mod ray;
 mod sphere;
 mod util;
@@ -12,6 +15,10 @@ use camera::camera::Camera;
 use hittable::hittable::HitRecord;
 use hittable::hittable::Hittable;
 use hittable::hittable::HittableList;
+use hittable::hittable::Hittables;
+use lambertian::lambertian::Lambertian;
+use material::material::Material;
+use material::material::Materials;
 use ray::ray::Ray;
 use sphere::sphere::Sphere;
 use util::util::rand_f32;
@@ -43,31 +50,47 @@ fn ray_colour(r: &Ray, world: &HittableList, depth: i32) -> Colour {
     }
 
     let mut rec = HitRecord {
-        p: vec::vec::Vec {
+        p: Vec {
             x: 0.0,
             y: 0.0,
             z: 0.0,
         },
-        n: vec::vec::Vec {
+        n: Vec {
             x: 0.0,
             y: 0.0,
             z: 0.0,
         },
+        mat: Materials::MaterialNone,
         t: 0.0,
         front_face: false,
     };
 
     if world.hit(r, 0.001, std::f32::MAX, &mut rec) {
-        let target = rec.p.add(&[rand_hemisphere(&rec.n)]);
-        return ray_colour(
-            &Ray {
-                orig: rec.p,
-                dir: target.sub(&[rec.p]),
+        let mut scattered = Ray {
+            orig: Vec {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
             },
-            world,
-            depth - 1,
-        )
-        .mulf(0.5);
+            dir: Vec {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            },
+        };
+        let mut att = Colour {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+        };
+        if rec.mat.scatter(r, &rec, &mut att, &mut scattered) {
+            return att.mul(&[ray_colour(&scattered, world, depth - 1)]);
+        }
+        return Colour {
+            x: 0.0,
+            y: 0.0,
+            z: 0.0,
+        };
     }
 
     let unit = r.dir.unit();
@@ -93,24 +116,73 @@ fn main() -> std::io::Result<()> {
     let n_samples = 100;
     let max_depth = 50;
 
+    let mat_gnd = Materials::Lambertian(Lambertian {
+        albedo: Colour {
+            x: 0.8,
+            y: 0.8,
+            z: 0.0,
+        },
+    });
+    let mat_centre = Materials::Lambertian(Lambertian {
+        albedo: Colour {
+            x: 0.7,
+            y: 0.3,
+            z: 0.3,
+        },
+    });
+    let mat_left = Materials::Lambertian(Lambertian {
+        albedo: Colour {
+            x: 0.8,
+            y: 0.8,
+            z: 0.8,
+        },
+    });
+    let mat_right = Materials::Lambertian(Lambertian {
+        albedo: Colour {
+            x: 0.8,
+            y: 0.6,
+            z: 0.2,
+        },
+    });
+
     let mut world = HittableList {
         objects: std::vec::Vec::new(),
     };
-    world.objects.push(Box::new(Sphere {
-        c: Point {
-            x: 0.0,
-            y: 0.0,
-            z: -1.0,
-        },
-        r: 0.5,
-    }));
-    world.objects.push(Box::new(Sphere {
+    world.objects.push(Hittables::Sphere(Sphere {
         c: Point {
             x: 0.0,
             y: -100.5,
             z: -1.0,
         },
         r: 100.0,
+        mat: mat_gnd,
+    }));
+    world.objects.push(Hittables::Sphere(Sphere {
+        c: Point {
+            x: 0.0,
+            y: 0.0,
+            z: -1.0,
+        },
+        r: 0.5,
+        mat: mat_centre,
+    }));
+    world.objects.push(Hittables::Sphere(Sphere {
+        c: Point {
+            x: -1.0,
+            y: 0.0,
+            z: -1.0,
+        },
+        r: 0.5,
+        mat: mat_left,
+    }));
+    world.objects.push(Hittables::Sphere(Sphere {
+        c: Point {
+            x: 1.0,
+            y: 0.0,
+            z: -1.0,
+        },
+        r: 0.5,
+        mat: mat_right,
     }));
 
     let cam = camera::camera::init();

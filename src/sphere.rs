@@ -1,11 +1,13 @@
 pub mod sphere {
     use crate::hittable;
+    use crate::material;
     use crate::ray;
     use crate::vec;
 
     pub struct Sphere {
         pub c: vec::vec::Point,
         pub r: f32,
+        pub mat: material::material::Materials,
     }
 
     impl hittable::hittable::Hittable for Sphere {
@@ -39,6 +41,7 @@ pub mod sphere {
             rec.p = r.at(rec.t);
             let out_n = rec.p.sub(&[self.c]).divf(self.r);
             rec.set_face_norm(r, &out_n);
+            rec.mat = self.mat;
 
             true
         }

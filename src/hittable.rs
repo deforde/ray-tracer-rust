@@ -1,11 +1,14 @@
 pub mod hittable {
+    use crate::material;
     use crate::ray;
+    use crate::sphere;
     use crate::vec;
 
     #[derive(Copy, Clone)]
     pub struct HitRecord {
         pub p: vec::vec::Vec,
         pub n: vec::vec::Vec,
+        pub mat: material::material::Materials,
         pub t: f32,
         pub front_face: bool,
     }
@@ -25,8 +28,20 @@ pub mod hittable {
         fn hit(&self, r: &ray::ray::Ray, t_min: f32, t_max: f32, rec: &mut HitRecord) -> bool;
     }
 
+    pub enum Hittables {
+        Sphere(sphere::sphere::Sphere),
+    }
+
+    impl Hittable for Hittables {
+        fn hit(&self, r: &ray::ray::Ray, t_min: f32, t_max: f32, rec: &mut HitRecord) -> bool {
+            match self {
+                Hittables::Sphere(sphere) => sphere.hit(r, t_min, t_max, rec),
+            }
+        }
+    }
+
     pub struct HittableList {
-        pub objects: std::vec::Vec<Box<dyn Hittable>>,
+        pub objects: std::vec::Vec<Hittables>,
     }
 
     impl Hittable for HittableList {
@@ -42,6 +57,7 @@ pub mod hittable {
                     y: 0.0,
                     z: 0.0,
                 },
+                mat: material::material::Materials::MaterialNone,
                 t: 0.0,
                 front_face: false,
             };

@@ -88,6 +88,15 @@ pub mod vec {
         pub fn len(&self) -> f32 {
             self.len_sqrd().sqrt()
         }
+
+        pub fn near_zero(&self) -> bool {
+            let s = 1e-8;
+            self.x.abs() < s && self.y.abs() < s && self.z.abs() < s
+        }
+
+        pub fn reflect(&self, v: &Vec) -> Vec {
+            self.sub(&[v.mulf(2.0 * self.dot(v))])
+        }
     }
 
     pub type Point = Vec;
