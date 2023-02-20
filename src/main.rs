@@ -57,7 +57,7 @@ fn ray_colour(r: &Ray, world: &HittableList, depth: i32) -> Colour {
         front_face: false,
     };
 
-    if world.hit(r, 0.0, std::f32::MAX, &mut rec) {
+    if world.hit(r, 0.001, std::f32::MAX, &mut rec) {
         let target = rec.p.add(&[rec.n, rand_unit_sphere()]);
         return ray_colour(
             &Ray {
