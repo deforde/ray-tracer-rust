@@ -97,6 +97,13 @@ pub mod vec {
         pub fn reflect(&self, v: &Vec) -> Vec {
             self.sub(&[v.mulf(2.0 * self.dot(v))])
         }
+
+        pub fn refract(&self, n: &Vec, e: f32) -> Vec {
+            let c = self.mulf(-1.0).dot(n).min(1.0);
+            let u = self.add(&[n.mulf(c)]).mulf(e);
+            let v = n.mulf(-1.0 * (1.0 - u.len_sqrd()).abs().sqrt());
+            u.add(&[v])
+        }
     }
 
     pub type Point = Vec;

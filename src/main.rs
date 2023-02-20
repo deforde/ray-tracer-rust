@@ -2,6 +2,7 @@ use std::fs::File;
 use std::io::prelude::*;
 
 mod camera;
+mod dielectric;
 mod hittable;
 mod lambertian;
 mod material;
@@ -12,6 +13,7 @@ mod util;
 mod vec;
 
 use camera::camera::Camera;
+use dielectric::dielectric::Dielectric;
 use hittable::hittable::HitRecord;
 use hittable::hittable::Hittable;
 use hittable::hittable::HittableList;
@@ -124,21 +126,8 @@ fn main() -> std::io::Result<()> {
             z: 0.0,
         },
     });
-    let mat_centre = Materials::Lambertian(Lambertian {
-        albedo: Colour {
-            x: 0.7,
-            y: 0.3,
-            z: 0.3,
-        },
-    });
-    let mat_left = Materials::Metal(Metal {
-        albedo: Colour {
-            x: 0.8,
-            y: 0.8,
-            z: 0.8,
-        },
-        fuzz: 0.3,
-    });
+    let mat_centre = Materials::Dielectric(Dielectric { ir: 1.5 });
+    let mat_left = Materials::Dielectric(Dielectric { ir: 1.5 });
     let mat_right = Materials::Metal(Metal {
         albedo: Colour {
             x: 0.8,

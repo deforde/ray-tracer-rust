@@ -1,4 +1,5 @@
 pub mod material {
+    use crate::dielectric;
     use crate::hittable;
     use crate::lambertian;
     use crate::metal;
@@ -18,6 +19,7 @@ pub mod material {
     #[derive(Copy, Clone)]
     pub enum Materials {
         MaterialNone,
+        Dielectric(dielectric::dielectric::Dielectric),
         Lambertian(lambertian::lambertian::Lambertian),
         Metal(metal::metal::Metal),
     }
@@ -32,6 +34,7 @@ pub mod material {
         ) -> bool {
             match self {
                 Materials::MaterialNone => false,
+                Materials::Dielectric(mat) => mat.scatter(r, rec, att, scattered),
                 Materials::Lambertian(mat) => mat.scatter(r, rec, att, scattered),
                 Materials::Metal(mat) => mat.scatter(r, rec, att, scattered),
             }
