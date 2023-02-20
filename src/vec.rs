@@ -1,4 +1,6 @@
 pub mod vec {
+    use crate::util;
+
     #[derive(Debug, Copy, Clone, PartialEq)]
     pub struct Vec {
         pub x: f32,
@@ -90,6 +92,31 @@ pub mod vec {
 
     pub type Point = Vec;
     pub type Colour = Vec;
+
+    pub fn rand() -> Vec {
+        Vec {
+            x: util::util::rand_f32(),
+            y: util::util::rand_f32(),
+            z: util::util::rand_f32(),
+        }
+    }
+
+    pub fn randmm(min: f32, max: f32) -> Vec {
+        Vec {
+            x: util::util::randmm_f32(min, max),
+            y: util::util::randmm_f32(min, max),
+            z: util::util::randmm_f32(min, max),
+        }
+    }
+
+    pub fn rand_unit_sphere() -> Vec {
+        loop {
+            let p = randmm(-1.0, 1.0);
+            if p.len_sqrd() < 1.0 {
+                return p;
+            }
+        }
+    }
 }
 
 #[cfg(test)]

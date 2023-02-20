@@ -8,6 +8,10 @@ pub mod util {
         rand::thread_rng().gen::<f32>()
     }
 
+    pub fn randmm_f32(min: f32, max: f32) -> f32 {
+        min + (max - min) * rand_f32()
+    }
+
     pub fn write_colour(f: &mut File, c: &vec::vec::Colour, n_samples: i32) -> std::io::Result<()> {
         let scale = 1.0 / n_samples as f32;
 
