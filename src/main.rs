@@ -175,6 +175,15 @@ fn main() -> std::io::Result<()> {
     }));
     world.objects.push(Hittables::Sphere(Sphere {
         c: Point {
+            x: -1.0,
+            y: 0.0,
+            z: -1.0,
+        },
+        r: -0.4,
+        mat: mat_left,
+    }));
+    world.objects.push(Hittables::Sphere(Sphere {
+        c: Point {
             x: 1.0,
             y: 0.0,
             z: -1.0,
