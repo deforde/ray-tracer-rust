@@ -28,11 +28,14 @@ pub mod dielectric {
                 self.ir
             };
             let u = r.dir.unit();
-            let refr = u.refract(&rec.n, rr);
-            *scattered = ray::ray::Ray {
-                orig: rec.p,
-                dir: refr,
+            let c = u.mulf(-1.0).dot(&rec.n).min(1.0);
+            let s = (1.0 - c * c).sqrt();
+            let dir = if rr * s > 1.0 {
+                u.reflect(&rec.n)
+            } else {
+                u.refract(&rec.n, rr)
             };
+            *scattered = ray::ray::Ray { orig: rec.p, dir };
             true
         }
     }

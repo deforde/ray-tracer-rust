@@ -126,7 +126,13 @@ fn main() -> std::io::Result<()> {
             z: 0.0,
         },
     });
-    let mat_centre = Materials::Dielectric(Dielectric { ir: 1.5 });
+    let mat_centre = Materials::Lambertian(Lambertian {
+        albedo: Colour {
+            x: 0.1,
+            y: 0.2,
+            z: 0.5,
+        },
+    });
     let mat_left = Materials::Dielectric(Dielectric { ir: 1.5 });
     let mat_right = Materials::Metal(Metal {
         albedo: Colour {
@@ -134,7 +140,7 @@ fn main() -> std::io::Result<()> {
             y: 0.6,
             z: 0.2,
         },
-        fuzz: 1.0,
+        fuzz: 0.0,
     });
 
     let mut world = HittableList {
