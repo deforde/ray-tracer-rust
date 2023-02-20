@@ -1,17 +1,20 @@
 use std::fs::File;
 use std::io::prelude::*;
 
+mod camera;
 mod hittable;
 mod ray;
 mod sphere;
 mod util;
 mod vec;
 
+use camera::camera::Camera;
 use hittable::hittable::HitRecord;
 use hittable::hittable::Hittable;
 use hittable::hittable::HittableList;
 use ray::ray::Ray;
 use sphere::sphere::Sphere;
+use util::util::rand_f32;
 use util::util::write_colour;
 use vec::vec::Colour;
 use vec::vec::Point;
@@ -76,6 +79,7 @@ fn main() -> std::io::Result<()> {
     let aspect_ratio = 16.0 / 9.0;
     let image_width = 400;
     let image_height = (image_width as f32 / aspect_ratio) as i32;
+    let n_samples = 100;
 
     let mut world = HittableList {
         objects: std::vec::Vec::new(),
@@ -96,6 +100,8 @@ fn main() -> std::io::Result<()> {
         },
         r: 100.0,
     }));
+
+    let cam = camera::camera::init();
 
     let viewport_height = 2.0;
     let viewport_width = aspect_ratio * viewport_height;
@@ -132,18 +138,18 @@ fn main() -> std::io::Result<()> {
     for j in (0..image_height).rev() {
         print!("\rscan lines remaining: {j}  ");
         for i in 0..image_width {
-            let u = i as f32 / (image_width - 1) as f32;
-            let v = j as f32 / (image_height - 1) as f32;
-            let r = Ray {
-                orig: origin,
-                dir: lower_left_corner.add(&[
-                    horizontal.mulf(u),
-                    vertical.mulf(v),
-                    origin.mulf(-1.0),
-                ]),
+            let mut c = Colour {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
             };
-            let c = ray_colour(&r, &world);
-            write_colour(&mut f, &c)?;
+            for _ in 0..n_samples {
+                let u = (i as f32 + rand_f32()) / (image_width - 1) as f32;
+                let v = (j as f32 + rand_f32()) / (image_height - 1) as f32;
+                let r = cam.get_ray(u, v);
+                c = c.add(&[ray_colour(&r, &world)]);
+            }
+            write_colour(&mut f, &c, n_samples)?;
         }
     }
     println!("\ndone");
