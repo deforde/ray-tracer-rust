@@ -137,6 +137,7 @@ fn main() -> std::io::Result<()> {
             y: 0.8,
             z: 0.8,
         },
+        fuzz: 0.3,
     });
     let mat_right = Materials::Metal(Metal {
         albedo: Colour {
@@ -144,6 +145,7 @@ fn main() -> std::io::Result<()> {
             y: 0.6,
             z: 0.2,
         },
+        fuzz: 1.0,
     });
 
     let mut world = HittableList {

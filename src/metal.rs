@@ -7,6 +7,7 @@ pub mod metal {
     #[derive(Copy, Clone)]
     pub struct Metal {
         pub albedo: vec::vec::Colour,
+        pub fuzz: f32,
     }
 
     impl material::material::Material for Metal {
@@ -20,7 +21,7 @@ pub mod metal {
             let refl = r.dir.unit().reflect(&rec.n);
             *scattered = ray::ray::Ray {
                 orig: rec.p,
-                dir: refl,
+                dir: refl.add(&[vec::vec::rand_unit_sphere().mulf(self.fuzz)]),
             };
             *att = self.albedo;
             scattered.dir.dot(&rec.n) > 0.0
