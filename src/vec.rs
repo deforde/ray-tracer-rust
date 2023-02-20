@@ -146,6 +146,19 @@ pub mod vec {
             v.mulf(-1.0)
         }
     }
+
+    pub fn rand_unit_disk() -> Vec {
+        loop {
+            let p = Vec {
+                x: util::util::randmm_f32(-1.0, 1.0),
+                y: util::util::randmm_f32(-1.0, 1.0),
+                z: 0.0,
+            };
+            if p.len_sqrd() < 1.0 {
+                return p;
+            }
+        }
+    }
 }
 
 #[cfg(test)]

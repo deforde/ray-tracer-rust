@@ -192,25 +192,24 @@ fn main() -> std::io::Result<()> {
         mat: mat_right,
     }));
 
-    let cam = camera::camera::init(
-        &Point {
-            x: -2.0,
-            y: 2.0,
-            z: 1.0,
-        },
-        &Point {
-            x: 0.0,
-            y: 0.0,
-            z: -1.0,
-        },
-        &Vec {
-            x: 0.0,
-            y: 1.0,
-            z: 0.0,
-        },
-        90.0,
-        aspect_ratio,
-    );
+    let lf = Point {
+        x: 3.0,
+        y: 3.0,
+        z: 2.0,
+    };
+    let la = Point {
+        x: 0.0,
+        y: 0.0,
+        z: -1.0,
+    };
+    let vup = Vec {
+        x: 0.0,
+        y: 1.0,
+        z: 0.0,
+    };
+    let fd = lf.sub(&[la]).len();
+    let ap = 2.0;
+    let cam = camera::camera::init(&lf, &la, &vup, 20.0, aspect_ratio, ap, fd);
 
     let mut f = File::create("img.ppm")?;
     f.write_all(format!("P3\n{image_width} {image_height}\n255\n").as_bytes())?;
