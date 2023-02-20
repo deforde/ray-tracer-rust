@@ -15,9 +15,9 @@ pub mod util {
     pub fn write_colour(f: &mut File, c: &vec::vec::Colour, n_samples: i32) -> std::io::Result<()> {
         let scale = 1.0 / n_samples as f32;
 
-        let r = c.x * scale;
-        let g = c.y * scale;
-        let b = c.z * scale;
+        let r = (c.x * scale).sqrt();
+        let g = (c.y * scale).sqrt();
+        let b = (c.z * scale).sqrt();
 
         let ir = (256.0 * r.clamp(0.0, 0.999)) as i32;
         let ig = (256.0 * g.clamp(0.0, 0.999)) as i32;
