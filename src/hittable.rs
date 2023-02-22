@@ -17,7 +17,7 @@ pub mod hittable {
         pub fn set_face_norm(&mut self, r: &ray::ray::Ray, out_n: &vec::vec::Vec) {
             self.front_face = r.dir.dot(out_n) < 0.0;
             self.n = if self.front_face {
-                out_n.clone()
+                *out_n
             } else {
                 out_n.mulf(-1.0)
             };

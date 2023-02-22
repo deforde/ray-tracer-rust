@@ -10,7 +10,7 @@ pub mod vec {
 
     impl Vec {
         pub fn add(&self, others: &[Vec]) -> Vec {
-            let mut v = self.clone();
+            let mut v = *self;
             for other in others {
                 v.x += other.x;
                 v.y += other.y;
@@ -20,7 +20,7 @@ pub mod vec {
         }
 
         pub fn sub(&self, others: &[Vec]) -> Vec {
-            let mut v = self.clone();
+            let mut v = *self;
             for other in others {
                 v.x -= other.x;
                 v.y -= other.y;
@@ -30,7 +30,7 @@ pub mod vec {
         }
 
         pub fn mul(&self, others: &[Vec]) -> Vec {
-            let mut v = self.clone();
+            let mut v = *self;
             for other in others {
                 v.x *= other.x;
                 v.y *= other.y;
@@ -40,7 +40,7 @@ pub mod vec {
         }
 
         pub fn div(&self, others: &[Vec]) -> Vec {
-            let mut v = self.clone();
+            let mut v = *self;
             for other in others {
                 v.x /= other.x;
                 v.y /= other.y;
