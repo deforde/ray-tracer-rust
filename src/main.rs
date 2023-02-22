@@ -12,7 +12,6 @@ mod sphere;
 mod util;
 mod vec;
 
-use camera::camera::Camera;
 use dielectric::dielectric::Dielectric;
 use hittable::hittable::HitRecord;
 use hittable::hittable::Hittable;
@@ -28,23 +27,10 @@ use util::util::rand_f32;
 use util::util::randmm_f32;
 use util::util::write_colour;
 use vec::vec::rand;
-use vec::vec::rand_hemisphere;
 use vec::vec::randmm;
 use vec::vec::Colour;
 use vec::vec::Point;
 use vec::vec::Vec;
-
-fn hit_sphere(centre: &Point, radius: f32, r: &Ray) -> f32 {
-    let oc = r.orig.sub(&[*centre]);
-    let a = r.dir.len_sqrd();
-    let b = oc.dot(&r.dir);
-    let c = oc.len_sqrd() - radius * radius;
-    let discriminant = b * b - a * c;
-    if discriminant < 0.0 {
-        return -1.0;
-    }
-    (-b - discriminant.sqrt()) / a
-}
 
 fn ray_colour(r: &Ray, world: &HittableList, depth: i32) -> Colour {
     if depth <= 0 {
@@ -161,7 +147,7 @@ fn random_scene() -> HittableList {
                         r: 0.2,
                         mat,
                     }));
-                } else if choose < 0.95 {
+                } else if choose < 0.96 {
                     let albedo = randmm(0.5, 1.0);
                     let fuzz = randmm_f32(0.0, 0.5);
                     let mat = Materials::Metal(Metal { albedo, fuzz });

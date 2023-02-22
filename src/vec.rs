@@ -39,16 +39,6 @@ pub mod vec {
             v
         }
 
-        pub fn div(&self, others: &[Vec]) -> Vec {
-            let mut v = *self;
-            for other in others {
-                v.x /= other.x;
-                v.y /= other.y;
-                v.z /= other.z;
-            }
-            v
-        }
-
         pub fn mulf(&self, val: f32) -> Vec {
             Vec {
                 x: self.x * val,
@@ -135,16 +125,8 @@ pub mod vec {
     }
 
     pub fn rand_unit() -> Vec {
-        rand_unit_sphere().unit()
-    }
-
-    pub fn rand_hemisphere(n: &Vec) -> Vec {
-        let v = rand_unit_sphere();
-        if v.dot(n) > 0.0 {
-            v
-        } else {
-            v.mulf(-1.0)
-        }
+        // rand_unit_sphere().unit()
+        randmm(-1.0, 1.0).unit()
     }
 
     pub fn rand_unit_disk() -> Vec {

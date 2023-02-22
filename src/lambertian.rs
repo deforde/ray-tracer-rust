@@ -12,7 +12,7 @@ pub mod lambertian {
     impl material::material::Material for Lambertian {
         fn scatter(
             &self,
-            r: &ray::ray::Ray,
+            _r: &ray::ray::Ray,
             rec: &hittable::hittable::HitRecord,
             att: &mut vec::vec::Colour,
             scattered: &mut ray::ray::Ray,
