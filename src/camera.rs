@@ -2,6 +2,7 @@ pub mod camera {
     use crate::ray;
     use crate::vec;
 
+    #[derive(Default)]
     pub struct Camera {
         pub orig: vec::vec::Point,
         pub llc: vec::vec::Point,

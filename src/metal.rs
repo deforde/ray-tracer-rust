@@ -4,7 +4,7 @@ pub mod metal {
     use crate::ray;
     use crate::vec;
 
-    #[derive(Copy, Clone)]
+    #[derive(Copy, Clone, Debug, Default)]
     pub struct Metal {
         pub albedo: vec::vec::Colour,
         pub fuzz: f32,

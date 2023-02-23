@@ -4,7 +4,7 @@ pub mod hittable {
     use crate::sphere;
     use crate::vec;
 
-    #[derive(Copy, Clone)]
+    #[derive(Copy, Clone, Default)]
     pub struct HitRecord {
         pub p: vec::vec::Vec,
         pub n: vec::vec::Vec,
@@ -40,27 +40,14 @@ pub mod hittable {
         }
     }
 
+    #[derive(Default)]
     pub struct HittableList {
         pub objects: std::vec::Vec<Hittables>,
     }
 
     impl Hittable for HittableList {
         fn hit(&self, r: &ray::ray::Ray, t_min: f32, t_max: f32, rec: &mut HitRecord) -> bool {
-            let mut temp_rec = HitRecord {
-                p: vec::vec::Vec {
-                    x: 0.0,
-                    y: 0.0,
-                    z: 0.0,
-                },
-                n: vec::vec::Vec {
-                    x: 0.0,
-                    y: 0.0,
-                    z: 0.0,
-                },
-                mat: material::material::Materials::MaterialNone,
-                t: 0.0,
-                front_face: false,
-            };
+            let mut temp_rec: HitRecord = Default::default();
 
             let mut hit = false;
             let mut closest = t_max;

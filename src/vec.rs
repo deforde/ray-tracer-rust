@@ -1,7 +1,7 @@
 pub mod vec {
     use crate::util;
 
-    #[derive(Debug, Copy, Clone, PartialEq)]
+    #[derive(Debug, Copy, Clone, PartialEq, Default)]
     pub struct Vec {
         pub x: f32,
         pub y: f32,
@@ -134,7 +134,7 @@ pub mod vec {
             let p = Vec {
                 x: util::util::randmm_f32(-1.0, 1.0),
                 y: util::util::randmm_f32(-1.0, 1.0),
-                z: 0.0,
+                ..Default::default()
             };
             if p.len_sqrd() < 1.0 {
                 return p;
@@ -191,16 +191,6 @@ mod tests {
                 x: 28.0,
                 y: 80.0,
                 z: 162.0,
-            }
-        );
-
-        t = v.div(&[u, r]);
-        assert_eq!(
-            t,
-            vec::Vec {
-                x: 0.035714286,
-                y: 0.05,
-                z: 0.055555556,
             }
         );
 

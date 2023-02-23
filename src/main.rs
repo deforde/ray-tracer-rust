@@ -34,55 +34,18 @@ use vec::vec::Vec;
 
 fn ray_colour(r: &Ray, world: &HittableList, depth: i32) -> Colour {
     if depth <= 0 {
-        return Colour {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        };
+        return Default::default();
     }
 
-    let mut rec = HitRecord {
-        p: Vec {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        },
-        n: Vec {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        },
-        mat: Materials::MaterialNone,
-        t: 0.0,
-        front_face: false,
-    };
+    let mut rec: HitRecord = Default::default();
 
     if world.hit(r, 0.001, std::f32::MAX, &mut rec) {
-        let mut scattered = Ray {
-            orig: Vec {
-                x: 0.0,
-                y: 0.0,
-                z: 0.0,
-            },
-            dir: Vec {
-                x: 0.0,
-                y: 0.0,
-                z: 0.0,
-            },
-        };
-        let mut att = Colour {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        };
+        let mut scattered: Ray = Default::default();
+        let mut att: Colour = Default::default();
         if rec.mat.scatter(r, &rec, &mut att, &mut scattered) {
             return att.mul(&[ray_colour(&scattered, world, depth - 1)]);
         }
-        return Colour {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        };
+        return Default::default();
     }
 
     let unit = r.dir.unit();
@@ -115,9 +78,8 @@ fn random_scene() -> HittableList {
     });
     world.objects.push(Hittables::Sphere(Sphere {
         c: Point {
-            x: 0.0,
             y: -1000.0,
-            z: 0.0,
+            ..Default::default()
         },
         r: 1000.0,
         mat: mat_gnd,
@@ -134,36 +96,26 @@ fn random_scene() -> HittableList {
             if (centre.sub(&[Point {
                 x: 4.0,
                 y: 0.2,
-                z: 0.0,
+                ..Default::default()
             }]))
             .len()
                 > 0.9
             {
-                if choose < 0.8 {
+                let mat = if choose < 0.8 {
                     let albedo = rand().mul(&[rand()]);
-                    let mat = Materials::Lambertian(Lambertian { albedo });
-                    world.objects.push(Hittables::Sphere(Sphere {
-                        c: centre,
-                        r: 0.2,
-                        mat,
-                    }));
+                    Materials::Lambertian(Lambertian { albedo })
                 } else if choose < 0.96 {
                     let albedo = randmm(0.5, 1.0);
                     let fuzz = randmm_f32(0.0, 0.5);
-                    let mat = Materials::Metal(Metal { albedo, fuzz });
-                    world.objects.push(Hittables::Sphere(Sphere {
-                        c: centre,
-                        r: 0.2,
-                        mat,
-                    }));
+                    Materials::Metal(Metal { albedo, fuzz })
                 } else {
-                    let mat = Materials::Dielectric(Dielectric { ir: 1.5 });
-                    world.objects.push(Hittables::Sphere(Sphere {
-                        c: centre,
-                        r: 0.2,
-                        mat,
-                    }));
-                }
+                    Materials::Dielectric(Dielectric { ir: 1.5 })
+                };
+                world.objects.push(Hittables::Sphere(Sphere {
+                    c: centre,
+                    r: 0.2,
+                    mat,
+                }));
             }
         }
     }
@@ -171,9 +123,8 @@ fn random_scene() -> HittableList {
     let mut mat = Materials::Dielectric(Dielectric { ir: 1.5 });
     world.objects.push(Hittables::Sphere(Sphere {
         c: Point {
-            x: 0.0,
             y: 1.0,
-            z: 0.0,
+            ..Default::default()
         },
         r: 1.0,
         mat,
@@ -190,7 +141,7 @@ fn random_scene() -> HittableList {
         c: Point {
             x: -4.0,
             y: 1.0,
-            z: 0.0,
+            ..Default::default()
         },
         r: 1.0,
         mat,
@@ -202,13 +153,13 @@ fn random_scene() -> HittableList {
             y: 0.6,
             z: 0.5,
         },
-        fuzz: 0.0,
+        ..Default::default()
     });
     world.objects.push(Hittables::Sphere(Sphere {
         c: Point {
             x: 4.0,
             y: 1.0,
-            z: 0.0,
+            ..Default::default()
         },
         r: 1.0,
         mat,
@@ -231,15 +182,10 @@ fn main() -> std::io::Result<()> {
         y: 2.0,
         z: 3.0,
     };
-    let la = Point {
-        x: 0.0,
-        y: 0.0,
-        z: 0.0,
-    };
+    let la: Point = Default::default();
     let vup = Vec {
-        x: 0.0,
         y: 1.0,
-        z: 0.0,
+        ..Default::default()
     };
     let fd = 10.0;
     let ap = 0.1;
@@ -252,11 +198,7 @@ fn main() -> std::io::Result<()> {
         print!("\rscan lines remaining: {j}  ");
         std::io::stdout().flush().unwrap();
         for i in 0..image_width {
-            let mut c = Colour {
-                x: 0.0,
-                y: 0.0,
-                z: 0.0,
-            };
+            let mut c: Colour = Default::default();
             for _ in 0..n_samples {
                 let u = (i as f32 + rand_f32()) / (image_width - 1) as f32;
                 let v = (j as f32 + rand_f32()) / (image_height - 1) as f32;

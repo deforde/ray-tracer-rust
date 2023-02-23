@@ -1,6 +1,7 @@
 pub mod ray {
     use crate::vec;
 
+    #[derive(Default)]
     pub struct Ray {
         pub orig: vec::vec::Point,
         pub dir: vec::vec::Vec,

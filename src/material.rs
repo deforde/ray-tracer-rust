@@ -16,8 +16,9 @@ pub mod material {
         ) -> bool;
     }
 
-    #[derive(Copy, Clone)]
+    #[derive(Copy, Clone, Default)]
     pub enum Materials {
+        #[default]
         MaterialNone,
         Dielectric(dielectric::dielectric::Dielectric),
         Lambertian(lambertian::lambertian::Lambertian),

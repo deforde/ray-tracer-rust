@@ -4,7 +4,7 @@ pub mod lambertian {
     use crate::ray;
     use crate::vec;
 
-    #[derive(Copy, Clone)]
+    #[derive(Copy, Clone, Default)]
     pub struct Lambertian {
         pub albedo: vec::vec::Colour,
     }

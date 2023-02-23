@@ -11,7 +11,7 @@ pub mod dielectric {
         r + (1.0 - r) * ((1.0 - c).powi(5))
     }
 
-    #[derive(Copy, Clone)]
+    #[derive(Copy, Clone, Default)]
     pub struct Dielectric {
         pub ir: f32,
     }
